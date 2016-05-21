@@ -2,32 +2,32 @@ package view;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
+
+import java.io.Reader;
+import java.io.Writer;
 import java.util.HashMap;
 
 import controller.Command;
 
-public class Cli {
+public class CLI {
 	private BufferedReader in;
-	private PrintWriter out;
+	private Writer out;
 	private HashMap<String, Command> commands;
-
-	public Cli(BufferedReader in, PrintWriter out, HashMap<String,Command> commands) {
+	
+	public CLI(BufferedReader in, Writer out, HashMap<String,Command> commands) {
 		this.in = in;
 		this.out = out;
 		this.commands = commands;
 	}
 	
-
-
-	public void start(){
+	public void start() {
 		Thread thread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				 
 				try {
-					out.write("Enter command: ");
+					out.write("\nEnter command: ");
 					out.flush();
 					String line = in.readLine();
 					while (!(line.equals("exit"))) {
@@ -41,8 +41,7 @@ public class Cli {
 						while (command == null && i < arr.length) {
 							str += arr[i];
 							command = commands.get(str);
-							str += "_";
-							
+							str += " ";
 							i++;
 						}
 						
@@ -73,9 +72,6 @@ public class Cli {
 		});
 		thread.start();
 	}
-		
-	}
 	
 	
-
-
+}

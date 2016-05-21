@@ -3,25 +3,30 @@ package boot;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.HashMap;
 
-import controller.Command;
-import controller.GenerateCommand;
+import controller.Controller;
+import controller.MyController;
+import model.Model;
 import model.MyModel;
-import view.Cli;
+import view.MyView;
+import view.View;
 
 public class Demo {
 
 	public static void main(String[] args) {
-		MyModel model = new MyModel();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		PrintWriter writer = new PrintWriter(System.out);
-		HashMap<String, Command> commands = new HashMap<String,Command>();
+		Controller controller = new MyController();
+		Model model = new MyModel(controller);
 		
-		commands.put("generate_3d_maze", new GenerateCommand(model));
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		PrintWriter out = new PrintWriter(System.out);
+		View view = new MyView(controller, in, out);
 		
-		Cli cli = new Cli(reader, writer, commands);
-		cli.start();
+		controller.setModel(model);
+		controller.setView(view);
+		
+		controller.generateCommands();
+		view.start();
+
 
 	}
 
